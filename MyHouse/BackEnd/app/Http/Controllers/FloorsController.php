@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
 use App\Models\Floor;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreFloorRequest;
@@ -27,7 +28,7 @@ class FloorsController extends Controller
      */
     public function store(Request $request)
     {
-        return Floor::create(['houses_id'=>$request->houseId]);
+        return Floor::create(['houses_id'=>$request->houses_id]);
     }
 
     /**
@@ -40,27 +41,14 @@ class FloorsController extends Controller
     {
         return Floor::find($id);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateFloorRequest  $request
-     * @param  \App\Models\Floor  $floor
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateFloorRequest $request, Floor $floor)
-    {
-        //
-    }
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Floor  $floor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Floor $floor)
-    {
-        //
+    public function destroy($id)
+    {   Room::where('floors_id',$id)->delete();
+        return Floor::find($id)->delete();
     }
 }

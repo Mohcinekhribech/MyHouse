@@ -13,7 +13,8 @@ class Room extends Model
         'RoomPic',
         'RoomType',
         'WindowsNbrs',
-        'floors_id'
+        'floors_id',
+        'description'
     ];
     public function Floor()
     {

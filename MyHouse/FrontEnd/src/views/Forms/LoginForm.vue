@@ -9,11 +9,13 @@
                         <input v-model="email" required type="email"
                             class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
                         <label class="font-semibold text-xs text-red-500 pb-1 block" v-if="error">{{ error }}</label>
-                        <label class="font-semibold text-xs text-red-500 pb-1 block" v-if="emailError">{{ emailError}}</label>
+                        <label class="font-semibold text-xs text-red-500 pb-1 block" v-if="emailError">{{
+                            emailError }}</label>
                         <label class="font-semibold text-sm text-gray-600 pb-1 block">Password</label>
                         <input v-model="password" required type="password"
                             class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
-                            <label class="font-semibold text-xs text-red-500 pb-1 block" v-if="passwordError">{{ passwordError}}</label>
+                        <label class="font-semibold text-xs text-red-500 pb-1 block" v-if="passwordError">{{
+                            passwordError }}</label>
                         <button type="submit"
                             class="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
                             <span class="inline-block mr-2">Login</span>
@@ -47,6 +49,7 @@
 </template>
 <script>
 import axios from 'axios'
+import { userStore } from '../../stores/userStore'
 export default {
     name: 'login',
     data() {
@@ -65,8 +68,20 @@ export default {
                 'password': this.password
             })
                 .then(res => {
-                    document.cookie = res.data.data.token
+                    userStore().getUserInfo(
+                        {
+                            token : res.data.data.token,
+                            userId :res.data.data.user.id,
+                            role : res.data.data.user.role
+                        }
+                    )
+                    localStorage.setItem('token',res.data.data.token)
                     localStorage.setItem('role', res.data.data.user.role)
+                    localStorage.setItem('name', res.data.data.user.name)
+                    localStorage.setItem('avatar', res.data.data.user.avatar)
+                    localStorage.setItem('id', res.data.data.user.id)
+                    if(res.data.data.user.role=='owner') this.$router.push('/Dashboard')
+                    if(res.data.data.user.role=='client') this.$router.push('/')
 
                 })
                 .catch(error => {
@@ -75,13 +90,16 @@ export default {
                         console.log(error.response.data.errors.email[0])
                         this.emailError = error.response.data.errors.email[0] ? error.response.data.errors.email[0] : false;
                         this.passwordError = error.response.data.errors.password ? error.response.data.errors.password[0] : false;
-                    }else {
+                    } else {
                         this.error = error.response.data.message;
                         this.emailError = false;
                         this.passwordError = false
                     }
                 }
                 )
+        },
+        sendDataToParent() {
+            this.$emit('dataEvent', this.position);
         }
     }
 }

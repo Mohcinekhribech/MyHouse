@@ -25,13 +25,15 @@ use App\Models\Conversation;
 
 Route::post('/Register', [AuthController::class, 'register']);
 Route::post('/Login', [AuthController::class, 'Login']);
-
+Route::get('/Houses/index', [HousesController::class,'index']);
+Route::get('/Houses/index/{id}', [HousesController::class,'show']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/Houses', HousesController::class);
     Route::apiResource('/Floors', FloorsController::class);
     Route::apiResource('/Rooms', RoomsController::class);
     Route::apiResource('/conversation', ConversationsController::class);
+    Route::apiResource('/Messages', MessagesController::class);
     Route::apiResource('/messages', MessagesController::class);
     Route::apiResource('/conditions', ConditionController::class);
 });

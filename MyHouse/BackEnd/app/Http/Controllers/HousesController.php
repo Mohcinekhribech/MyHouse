@@ -15,9 +15,24 @@ class HousesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return HousesResource::collection(House::all()) ;
+        if($request->type){
+            if($request->search)
+                return HousesResource::collection(House::where('contractType',$request->type)->Where('Location', 'like', '%'.$request->search.'%')->get()) ;
+                else 
+                return HousesResource::collection(House::where('contractType',$request->type)->get()) ;
+        }
+        
+        if($request->id){
+            if($request->search)
+            return HousesResource::collection(House::where('Owner_id',$request->id)->orWhere('Location', 'like', '%'.$request->search.'%')->get()) ;
+            else 
+            return HousesResource::collection(House::where('Owner_id',$request->id)->get()) ;
+        }
+
+        return HousesResource::collection(House::inRandomOrder()->orWhere('Location', 'like', '%'.$request->search.'%')->limit(6)->get())    ;
+        
     }
 
     /**
@@ -38,8 +53,7 @@ class HousesController extends Controller
      */
     public function show($id)
     {
-        // return new HousesResource(House::find($id));
-        ddd(House::find($id)->Floor);
+        return new HousesResource(House::find($id));
     }
 
     /**
@@ -49,7 +63,7 @@ class HousesController extends Controller
      * @param  \App\Models\House  $house
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreHouseRequest $request, $id)
     {
        return House::find($id)->update($request->all());
     }

@@ -15,8 +15,7 @@ class CreateFloorsTable extends Migration
     {
         Schema::create('floors', function (Blueprint $table) {
             $table->id();
-            $table->integer('roomsNbrs');
-            $table->foreignId('houses_id')->references('id')->on('houses');
+            $table->foreignId('houses_id')->references('id')->on('houses')->onDelete("cascade");;
             $table->timestamps();
         });
     }

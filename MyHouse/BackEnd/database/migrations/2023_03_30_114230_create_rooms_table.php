@@ -19,7 +19,8 @@ class CreateRoomsTable extends Migration
             $table->string('RoomPic');
             $table->string('RoomType',20);
             $table->integer('WindowsNbrs');
-            $table->foreignId('floors_id')->references('id')->on('floors');
+            $table->string('description',400);
+            $table->foreignId('floors_id')->references('id')->on('floors')->onDelete("cascade");;
             $table->timestamps();
         });
     }

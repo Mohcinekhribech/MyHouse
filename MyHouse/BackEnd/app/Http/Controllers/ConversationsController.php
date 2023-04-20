@@ -16,7 +16,7 @@ class ConversationsController extends Controller
         if ($user->role == 'client')
             return ConversationsResource::collection(Conversation::where('client_id', $user->id)->get()) ;
 
-        return Conversation::where('owner_id', $user->id)->get();
+        return ConversationsResource::collection(Conversation::where('owner_id', $user->id)->get());
     }
     public function store(StoreConversationRequest $request)
     {

@@ -17,9 +17,10 @@ class RoomsResource extends JsonResource
         return [
             'id' => (string) $this->id,
             'RoomArea' => (string) $this->RoomArea,
-            'RoomPic' => (string) $this->RoomPicRoomPic,
-            'RoomType' => (string) $this->RoomTypeRoomType,
+            'RoomPic' => (string) $this->RoomPic,
+            'RoomType' => (string) $this->RoomType,
             'WindowsNbrs' => (string) $this->WindowsNbrs,
+            'description' => (string) $this->description,
             'floor_id' => (string) $this->floor_id,
         ];
     }

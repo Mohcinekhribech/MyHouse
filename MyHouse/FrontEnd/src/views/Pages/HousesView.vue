@@ -11,30 +11,40 @@
       </div>
     </div>
     <div class="m-6 display">
-      <HousesCard />
-      <HousesCard />
-      <HousesCard />
-      <HousesCard />
-      <HousesCard />
-      <HousesCard />
-      <HousesCard />
-      <HousesCard />
-      <HousesCard />
-      <HousesCard />
-      <HousesCard />
-      <HousesCard />
-      <HousesCard />
+      <div v-for="house in houses" :key="house">
+        <HousesCard :house="house" />
+      </div>
     </div>
   </div>
 </template>
 <script>
 import HelloWorld from '@/components/HelloWorld.vue';
 import HousesCard from '../components/Houses-card.vue';
+import axios from 'axios';
 export default {
   name: 'Houses-View',
   components: {
     HelloWorld,
     HousesCard,
+  },
+  data()
+  {
+    return{
+      houses:{}
+    }
+  }
+  ,
+  mounted(){
+    axios.get('http://127.0.0.1:8000/api/Houses/index?type='+this.$route.params.type,{
+    headers: {
+                    "Content-type": "application/json",
+                    "Authorization": `Bearer ${document.cookie}`,
+                }
+              }
+    )
+    .then(res => {this.houses=res.data.data
+    console.log(this.houses)}
+    )
   }
 }
 </script>

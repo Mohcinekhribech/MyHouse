@@ -16,8 +16,11 @@ class ConversationsResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=>$this->id,
             'client_id'=>$this->client_id,
             'owner_id'=>$this->owner_id,
+            'client'=>$this->client,
+            'owner'=>$this->owner,
             'messages'=>MessagesResource::collection($this->messages)
         ];
     }

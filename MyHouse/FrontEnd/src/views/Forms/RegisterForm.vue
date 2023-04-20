@@ -6,6 +6,15 @@
                 <form @submit.prevent="onSubmit">
                     <div class="px-5 py-7">
                         <div>
+                            <label class="font-semibold text-sm text-gray-600 pb-1 block">Avatar</label>
+                            <img v-if="avatar" class="w-40 h-40 mx-auto rounded-full" :src="avatar" alt="">
+                                    <input @change="uploadimage($event)" required type="file"
+                                        class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+                                    <label class="font-semibold text-xs text-red-500 pb-1 block"
+                                        v-if="errAvatar">{{
+                                            errAvatar }}</label>
+                        </div>
+                        <div>
                             <label class="font-semibold text-sm text-gray-600 pb-1 block">Full Name</label>
                             <input v-model="name" required type="text"
                                 class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
@@ -74,6 +83,7 @@
 </template>
 
 <script>
+import { userStore } from '@/stores/userStore';
 import axios from 'axios';
 export default {
     name: 'register',
@@ -83,32 +93,58 @@ export default {
             email: '',
             password: '',
             role: '',
+            avatar: '',
             password_confirmation: '',
             errorName: false,
             errorEmail: false,
             errorPassword: false,
             errorRole: false,
+            errorAvatar: false,
         }
     },
+    mounted(){
+        console.log(userStore().token)
+    }
+    ,
     methods: {
         onSubmit() {
             axios.post('http://127.0.0.1:8000/api/Register', {
                 name: this.name,
                 email: this.email,
                 role: this.role,
+                avatar: this.avatar,
                 password: this.password,
                 password_confirmation: this.password_confirmation
             })
                 .then(res => {
-                    document.cookie = res.data.data.token
+                    userStore().getUserInfo(
+                        {
+                            token : res.data.data.token,
+                            userId :res.data.data.user.id,
+                            role : res.data.data.user.role,
+                            user:{
+                                name:this.name,
+                                email:this.email,
+                                avatar:this.avatar
+                            }
+                        }
+                    )
+                    localStorage.setItem('token',res.data.data.token)
                     localStorage.setItem('role', res.data.data.user.role)
+                    localStorage.setItem('name', res.data.data.user.name)
+                    localStorage.setItem('name', res.data.data.user.avatar)
+                    localStorage.setItem('id', res.data.data.user.id)
                     this.errorName = false
                     this.errorEmail = false
                     this.errorPassword = false
                     this.errorRole = false
+                    this.errorAvatar = false
+                    if(res.data.data.user.role=='owner') this.$router.push('/Dashboard')
+                    if(res.data.data.user.role=='client') this.$router.push('/')
                 })
                 .catch(error => {   
-                    if (error.response.data.errors) {
+                    console.log(error)
+                    if (error.response) {
                         if (error.response.data.errors.name) {
                             this.errorName = error.response.data.errors.name[0]
                         }
@@ -121,7 +157,23 @@ export default {
                         if (error.response.data.errors.password) {
                             this.errorPassword = error.response.data.errors.password[0]
                         }
+                        if (error.response.data.errors.avatar) {
+                            this.errorAvatar = error.response.data.errors.avatar[0]
+                        }
                     }
+                })
+        },
+        uploadimage(event) {
+            this.loading = true;
+            let file = event.target.files[0];
+            let formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', 'ozbl32lz');
+            axios.post('https://api.cloudinary.com/v1_1/dssb587ew/upload', formData)
+                .then(response => {
+                    console.log(response);
+                    this.loading = false;
+                    this.avatar = response.data.secure_url;
                 })
         }
     }

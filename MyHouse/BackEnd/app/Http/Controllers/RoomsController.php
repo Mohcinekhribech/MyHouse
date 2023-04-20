@@ -6,6 +6,7 @@ use App\Models\Room;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
+use App\Http\Resources\RoomsResource;
 
 class RoomsController extends Controller
 {
@@ -25,8 +26,9 @@ class RoomsController extends Controller
      * @param  \App\Http\Requests\StoreRoomRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRoomRequest $request)
     {
+        
         return Room::create($request->all());
     }
 
@@ -36,9 +38,9 @@ class RoomsController extends Controller
      * @param  \App\Models\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function show(Room $room)
+    public function show($id)
     {
-        //
+        return new RoomsResource(Room::find($id));
     }
 
     /**
@@ -48,9 +50,9 @@ class RoomsController extends Controller
      * @param  \App\Models\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRoomRequest $request, Room $room)
+    public function update(StoreRoomRequest $request, $id)
     {
-        //
+        return Room::find($id)->update($request->all());
     }
 
     /**
@@ -59,8 +61,8 @@ class RoomsController extends Controller
      * @param  \App\Models\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Room $room)
+    public function destroy($id)
     {
-        //
+        return Room::destroy($id);
     }
 }

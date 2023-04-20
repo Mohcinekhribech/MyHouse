@@ -14,11 +14,11 @@ class Conversation extends Model
     ];
     public function client()
     {
-        return $this->belongsTo(Messages::class,'client_id','id');
+        return $this->belongsTo(User::class,'client_id','id');
     }
     public function owner()
     {
-        return $this->belongsTo(Messages::class,'owner_id','id');
+        return $this->belongsTo(User::class,'owner_id','id');
     }
     public function messages()
     {
