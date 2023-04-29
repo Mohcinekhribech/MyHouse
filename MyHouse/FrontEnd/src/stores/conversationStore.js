@@ -17,7 +17,7 @@ export const conversationStore = defineStore('conversationStore', {
                 "Authorization": `Bearer ${token}`,
             }
         }).then(res => {
-            console.log(id)
+            console.log(res.data.data)
             this.conversations = res.data.data
             this.messages = this.conversations[0]
             this.Loading = false

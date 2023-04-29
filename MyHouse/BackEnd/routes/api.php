@@ -1,15 +1,15 @@
 <?php
 
-use App\Http\Controllers\ConversationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ConditionController;
+use App\Http\Controllers\adminController;
 use App\Http\Controllers\RoomsController;
 use App\Http\Controllers\FloorsController;
 use App\Http\Controllers\HousesController;
 use App\Http\Controllers\MessagesController;
-use App\Models\Conversation;
+use App\Http\Controllers\ConditionController;
+use App\Http\Controllers\ConversationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +27,7 @@ Route::post('/Register', [AuthController::class, 'register']);
 Route::post('/Login', [AuthController::class, 'Login']);
 Route::get('/Houses/index', [HousesController::class,'index']);
 Route::get('/Houses/index/{id}', [HousesController::class,'show']);
-
+Route::post('/accept/{id}', [adminController::class,'accept']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/Houses', HousesController::class);
     Route::apiResource('/Floors', FloorsController::class);

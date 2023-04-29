@@ -57,6 +57,42 @@ return [
     |
     */
 
+    'guards' => [
+        'client' => [
+            'driver' => 'sanctum',
+            'provider' => 'clients',
+        ],
+    
+        'owner' => [
+            'driver' => 'sanctum',
+            'provider' => 'owners',
+        ],
+    
+        'admin' => [
+            'driver' => 'sanctum',
+            'provider' => 'admins',
+        ],
+    ],
+
+    'providers' => [
+        'clients' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Client::class,
+        ],
+    
+        'owners' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Owner::class,
+        ],
+    
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+    ],
+    
+    
+
     'middleware' => [
         'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,

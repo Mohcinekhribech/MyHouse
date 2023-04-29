@@ -20,28 +20,12 @@ class ConversationsController extends Controller
     }
     public function store(StoreConversationRequest $request)
     {
-        return Conversation::create([
-            'client_id' => $request->client_id,
-            'owner_id' => $request->owner_id
-        ]);
-    }
-    public function show(Conversation $conversation)
-    {
-        //
-    }
-    public function update(StoreConversationRequest $request, Conversation $conversation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Conversation  $conversation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Conversation $conversation)
-    {
-        //
+        if(Conversation::where('client_id',$request->client_id)->where('owner_id',$request->owner_id)->count()==0){
+            return Conversation::create([
+                'client_id' => $request->client_id,
+                'owner_id' => $request->owner_id
+            ]);
+        }
+        return 'exist';
     }
 }

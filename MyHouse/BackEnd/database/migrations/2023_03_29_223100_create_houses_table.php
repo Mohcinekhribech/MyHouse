@@ -19,6 +19,7 @@ class CreateHousesTable extends Migration
             $table->string('housePrice',100);
             $table->string('contractType',100);
             $table->float('houseArea');
+            $table->integer('accepted')->default(0);
             $table->string('Location',100);
             $table->string('description',400);
             $table->integer('floorNbrs');

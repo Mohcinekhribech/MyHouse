@@ -19,6 +19,7 @@ class HousesResource extends JsonResource
             'Location' => $this->Location,
             'floors' => FloorsResource::collection($this->Floor),
             'housePic' => $this->housePic,
+            'accepted' => $this->accepted,
             'floorNbrs' => $this->floorNbrs,
             'conditions' => $this->Condition,
             'Owner_id' => $this->Owner_id,

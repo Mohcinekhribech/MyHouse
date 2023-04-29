@@ -138,7 +138,6 @@
 
                     <router-link to="/Dashboard" class="text-xl text-center bg-lime-300 font-bold text-[#9599A6] m-2 border border-2 mx-auto rounded-lg p-2">Back To Dashboard</router-link>
                 </center>
-
             </div>
         </div>
     </div>
@@ -230,7 +229,7 @@ export default {
                             , {
                                 headers: {
                                     "Content-type": "application/json",
-                                    "Authorization": `Bearer ${document.cookie}`,
+                                    "Authorization": `Bearer ${userStore().token}`,
                                 }
                             })
                     }

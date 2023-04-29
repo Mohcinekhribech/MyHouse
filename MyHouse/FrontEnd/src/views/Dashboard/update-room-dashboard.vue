@@ -24,8 +24,19 @@
                         </div>
                         <div>
                             <label class="font-semibold text-sm text-gray-600 pb-1 block">Rooms Type</label>
-                            <input v-model="room.RoomType" required type="number"
-                                class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+                            <select v-model="room.RoomType" required type="number"
+                                class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" >
+                                <option :value="room.RoomType">{{room.RoomType}}</option>
+                                <option value="Bedroom">Bedroom</option>
+                                <option value="Dining room">Dining room</option>
+                                <option value="Kitchen">Kitchen</option>
+                                <option value="Bathroom">Bathroom</option>
+                                <option value="Home office">Home office</option>
+                                <option value="Laundry room">Laundry room</option>
+                                <option value="Family room">Family room</option>
+                                <option value="Mudroom">Mudroom</option>
+                                <option value="Basement">Basement</option>
+                            </select>
                             <label class="font-semibold text-xs text-red-500 pb-1 block" v-if="errors.errRoomType">{{
                                 errors.errRoomType }}</label>
                         </div>
@@ -62,7 +73,7 @@
 <script>
 import axios from 'axios';
 import { houseStore } from '../../stores/houseStore';
-// import { positions } from '@/stores/store.js';
+import { userStore } from '../../stores/userStore';
 export default {
     name: 'updateRoom',
     data() {
@@ -92,11 +103,10 @@ export default {
         {
                 headers: {
                     "Content-type": "application/json",
-                    "Authorization": `Bearer ${document.cookie}`,
+                    "Authorization": `Bearer ${userStore().token}`,
                 }
             })
         .then(res=> {this.room = res.data.data
-        console.log(this.room.RoomArea)
          })
     }
     ,
@@ -106,7 +116,7 @@ export default {
             axios.put('http://127.0.0.1:8000/api/Rooms/'+this.$route.params.id, this.room, {
                 headers: {
                     "Content-type": "application/json",
-                    "Authorization": `Bearer ${document.cookie}`,
+                    "Authorization": `Bearer ${userStore().token}`,
                 }
             }
             )
@@ -126,7 +136,6 @@ export default {
                     this.errors.errWindowsNbrs = false;
                     this.errors.errdescription = false;
                     this.position++;
-                    
                     this.$router.push('/Dashboard/houses/info/'+this.store.floors[0].houses_Id)
                 })
                 .catch(error => {
@@ -158,7 +167,6 @@ export default {
             formData.append('upload_preset', 'ozbl32lz');
             axios.post('https://api.cloudinary.com/v1_1/dssb587ew/upload', formData)
                 .then(response => {
-                    console.log(response);
                     this.loading = false;
                     this.room.RoomPic = response.data.secure_url;
                 })

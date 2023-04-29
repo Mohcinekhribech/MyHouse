@@ -66,7 +66,7 @@
 <script>
 import DashboardLayoutVue from '../Layouts/DashboardLayout.vue'
 import { userStore } from '../../stores/userStore'
-import { conversationStore } from '../../stores/conversationStore'
+import { conversationStore } from '../../stores/conversationStore'  
 export default {
     name: 'messagesDashboard',
     components: {

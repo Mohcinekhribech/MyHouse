@@ -18,6 +18,7 @@ class House extends Model
         'contractType',
         'housePrice',
         'houseTitle',
+        'accepted',
     ];
 
     public function Floor()

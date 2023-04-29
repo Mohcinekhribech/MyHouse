@@ -10,16 +10,15 @@
 </svg>
     </div>
     <ul
-      class="flex space-x-6 max-md:absolute max-md:w-[220px] max-md:h-screen font-medium max-md:bg-[#F4F5F8] max-md:left-[-100%] max-md:flex-col  max-md:p-4 ease-in-out duration-300">
+      class="flex space-x-6 max-md:absolute z-10 max-md:w-[220px] max-md:h-screen font-medium max-md:bg-[#F4F5F8] max-md:left-[-100%] max-md:flex-col  max-md:p-4 ease-in-out duration-300">
       <i @click="closeNav()" class="fa-solid fa-x md:hidden text-xl text-[#DA6217] p-4" id="fxi"></i>
       <li class="p-2"><router-link to="/">Home</router-link></li>
       <li class="p-2"><router-link to="/Rent">Rent</router-link></li>
       <li class="p-2"><router-link to="/Buy">Buy</router-link></li>
       <li v-if="user.role == 'client'" class="p-2"><router-link to="/messages">Messages</router-link></li>
       <li v-if="user.role == 'owner'" class="p-2"><router-link to="/Dashboard">Dashboard</router-link></li>
-      <li class="p-2"><router-link to="/Contact">Contact</router-link></li>
-      <li v-if="!user.token" class="p-2 h-fit bg-[#364BDC] text-white rounded-lg"><router-link to="/Contact">Get Stated </router-link></li>
-      <li v-else class="p-2 h-fit bg-[#364BDC] text-white rounded-lg"><router-link to="/Contact">
+      <li v-if="!user.token" class="p-2 h-fit bg-[#364BDC] text-white rounded-lg"><router-link to="/login">Get Stated </router-link></li>
+      <li v-else class="p-2 h-fit bg-[#364BDC] text-white rounded-lg"><router-link to="/">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" width="24" height="24"
             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
             stroke-linejoin="round">

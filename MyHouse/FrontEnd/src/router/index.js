@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/Pages/HomeView.vue'
+import NotFound from '@/views/Pages/NotFound.vue'
 import SingleHouse from '@/views/Pages/SingleHouseView.vue'
 import ownerDashboard from '@/views/Dashboard/ownerDashboardView.vue'
 import messagesView from '@/views/Pages/MessagesView.vue'
@@ -11,7 +12,7 @@ import BuyView from '@/views/Pages/BuyView.vue'
 import houseInfoDashboard from '@/views/Dashboard/house-info-dashboard.vue'
 import updateRoom from '@/views/Dashboard/update-room-dashboard.vue'
 import messagesDashboard from '@/views/Dashboard/messages-dashboard.vue'
-// import superAdminDashboard from '@/views/Dashboard/super-admin-dashboard.vue'
+import Admin from '@/views/Dashboard/admin.vue'
 import updateHouses from '@/views/Dashboard/update-Houses.vue'
 import { userStore } from '../stores/userStore'
 
@@ -84,17 +85,22 @@ const routes = [
     component:houseInfoDashboard,
     meta :{isOwner:true}
   },
-  // {
-  //   path : '/Dashboard/Admin',
-  //   name:'houseInfoDashboard',
-  //   component:superAdminDashboard,
-  //   meta :{isSuperAdmin:true}
-  // },
+  {
+    path : '/Dashboard/Admin',
+    name:'Admin',
+    component:Admin,
+    meta :{isAdmin:true}
+  },
   {
     path : '/Dashboard/houses/Rooms/:id',
     name:'updateRoom',
     component:updateRoom,
     meta :{isOwner:true}
+  },
+  {
+    path : '/NotFound',
+    name:'NotFound',
+    component:NotFound
   }
 ]
 
@@ -104,28 +110,32 @@ const router = createRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
-  console.log(userStore().token)  
   if (to.matched.some(record => record.meta.isOwner)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
     if (!(userStore().role=='owner')) {
       next({
-        path: '/login'
+        path: '/NotFound'
       })
     } else {
       next()
     }
   } else if (to.matched.some(record => record.meta.isAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
-    if (!(userStore().role && userStore().userId && userStore().token)) {
+    if (!(userStore().role == 'client' && userStore().userId && userStore().token)) {
       next({
         path: '/login'
       })
     } else {
       next()
     }
-  } else {
+  }else if (to.matched.some(record => record.meta.isAdmin)) {
+    if (!(userStore().role == 'admin')) {
+      next({
+        path: '/NotFound'
+      })
+    } else {
+      next()
+    }
+  }
+   else {
     next() // make sure to always call next()!
   }
 

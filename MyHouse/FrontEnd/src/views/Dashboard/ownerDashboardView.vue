@@ -37,6 +37,9 @@
                                 contract type
                             </th>
                             <th scope="col" class="px-6 py-3">
+                                Status
+                            </th>
+                            <th scope="col" class="px-6 py-3">
                                 Action
                             </th>
                         </tr>
@@ -59,7 +62,23 @@
                             <td class="px-6 py-4">
                                 {{ house.contractType }}
                             </td>
-                            <td class="px-6 py-4 flex space-x-4">
+                            <td class="px-6 py-4">
+                                <p v-if="house.accepted==0"><svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </p>
+                                <p v-else>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+
+                                </p>
+                            </td>
+                            <td class="px-6 py-4 flex space-x-4 my-auto">
                                 <router-link :to="'/Dashboard/houses/update/' + house.id"
                                     class="hover:text-lime-600 cursor-pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
@@ -139,7 +158,7 @@ export default {
                                     "Authorization": `Bearer ${userStore().token}`,
                                 }
                             })
-                            .then(()=>{
+                            .then(() => {
                                 this.store.getHouseInfo(false, userStore().userId)
                             }
                             )

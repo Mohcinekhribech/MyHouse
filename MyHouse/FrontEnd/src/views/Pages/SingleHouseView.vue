@@ -2,7 +2,7 @@
   <div>
     <HelloWorld />
     <div v-if="!house.Loading">
-      <div class="min-h-[60vh] h-fit rounded-lg m-4 relative ">
+      <div class="min-h-[60vh] h-fit rounded-lg m-4 relative">
         <img :src="house.houses.housePic" class="h-full w-full brightness-50 absolute rounded-lg" alt="">
         <div class="absolute w-full">
           <h2 class="text-white text-3xl font-bold text-center m-8 ">{{ house.houses.houseTitle }}</h2>
@@ -13,7 +13,7 @@
       <div class="m-4">
         <div class="bg-[#F0F2F8] border border-[1px] border-gray-300 p-2 rounded-lg">
           <ul
-            class="hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
+            class="text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex">
             <li class="w-full">
               <a @click="showHouse = true"
                 class="inline-block w-full p-4 text-gray-900 bg-gray-100 rounded-l-lg focus:ring-4 focus:ring-blue-300 active focus:outline-none "
@@ -33,7 +33,7 @@
             </li>
             <li v-for="i in house.houses.floorNbrs" :key="i" @click="showFloor(i)" class="w-full">
               <div
-                class="inline-block w-full p-4 bg-white hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">
+                class="inline-block w-full p-4 bg-white hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none ">
                 Floor {{ i }}</div>
             </li>
           </ul>

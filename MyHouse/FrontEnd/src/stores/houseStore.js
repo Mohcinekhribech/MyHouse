@@ -8,9 +8,15 @@ export const houseStore = defineStore('houseStore', {
     Loading: false
   }),
   actions: {
-    getHouseInfo(id, ownerId, type) {
+    getHouseInfo(id, ownerId, type,admin) {
       this.Loading = true;
-      if (id) {
+      if(admin){
+        axios.get('http://127.0.0.1:8000/api/Houses/index/?admin=true')
+        .then(res => {
+          this.houses = res.data.data
+          console.log(this.houses)
+        })
+      }else if (id) {
         axios.get('http://127.0.0.1:8000/api/Houses/index/' + id)
           .then(res => {
             this.floors = res.data.data.floors
@@ -38,9 +44,14 @@ export const houseStore = defineStore('houseStore', {
             this.Loading = false
           })
     },
-    search(location,type,ownerId){
-      if(location){
-        if(ownerId)
+    search(location,type,ownerId,admin){
+        if(admin){
+          axios.get('http://127.0.0.1:8000/api/Houses/index/?admin=true&search='+location)
+          .then(res => {
+            this.houses = res.data.data
+            console.log(this.houses)
+          })
+        }else if(ownerId)
         {
           axios.get('http://127.0.0.1:8000/api/Houses/index/?id=' + ownerId+'&search='+location)
           .then(res => {
@@ -56,10 +67,8 @@ export const houseStore = defineStore('houseStore', {
         axios.get('http://127.0.0.1:8000/api/Houses/index?search='+location)
           .then(res => {
             this.houses = res.data.data
-          })
-      }else this.getHouseInfo(false,ownerId,type)
+          })  
 
-      console.log(this.houses)
     }
   }
 })

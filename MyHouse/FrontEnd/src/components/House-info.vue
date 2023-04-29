@@ -3,14 +3,14 @@
     <div class="sm:w-1/2 sm:mx-auto">
       <img :src="house.housePic" alt="">
     </div>
-    <div class="max-sm:w-1/2 mx-auto">
+    <div class="sm:w-1/2 mx-auto">
       <h2 class="text-[#192BAA] text-3xl font-bold text-center m-8">{{ house.houseTitle }}</h2>
       <div class="mx-6">
         <span class="flex text-[#616571] font-medium my-4">
           {{ house.description }}
         </span>
         <div>
-          <div v-if="house.conditions">
+          <div v-if="house.conditions!=[]">
             <h3 class="text-[#192BAA] text-lg font-bold ">Conditions :</h3>
             <div v-for="condition in house.conditions" :key="condition">
               <div class="text-[#DA6217] font-medium text-md flex space-x-4 my-[4px] mx-4">
@@ -52,18 +52,25 @@ export default {
   },
   methods: {
     createConversation(ownerId) {
-      axios.post('http://127.0.0.1:8000/api/conversation', {
-        client_id: userStore().userId,
-        owner_id: ownerId
-      },
-        {
-          headers: {
-            "Content-type": "application/json",
-            "Authorization": `Bearer ${userStore().token}`,
+      console.log(userStore().userId)
+      if(userStore().userId){
+        axios.post('http://127.0.0.1:8000/api/conversation', {
+          client_id: userStore().userId,
+          owner_id: ownerId,
+        },
+          {
+            headers: {
+              "Content-type": "application/json",
+              "Authorization": `Bearer ${userStore().token}`,
+            }
           }
-        }
-      )
-      .then(res => console.log(res))
+        )
+        .then((res) => {
+          this.$router.push('/messages')
+      })
+      }else {
+        this.$router.push('/login')
+      }
     }
   }
 }

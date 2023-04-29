@@ -21,8 +21,18 @@
                         </div>
                         <div>
                             <label class="font-semibold text-sm text-gray-600 pb-1 block">Rooms Type</label>
-                            <input v-model="room.RoomType" required type="number"
-                                class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+                            <select name="" v-model="room.RoomType" required type="number"
+                                class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"  id="">
+                                <option value="Bedroom">Bedroom</option>
+                                <option value="Dining room">Dining room</option>
+                                <option value="Kitchen">Kitchen</option>
+                                <option value="Bathroom">Bathroom</option>
+                                <option value="Home office">Home office</option>
+                                <option value="Laundry room">Laundry room</option>
+                                <option value="Family room">Family room</option>
+                                <option value="Mudroom">Mudroom</option>
+                                <option value="Basement">Basement</option>
+                            </select>
                             <label class="font-semibold text-xs text-red-500 pb-1 block" v-if="errors.errRoomType">{{
                                 errors.errRoomType }}</label>
                         </div>

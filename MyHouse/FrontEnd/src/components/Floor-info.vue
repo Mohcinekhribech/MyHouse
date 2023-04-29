@@ -2,18 +2,18 @@
   <div>
     <div class="m-4">
       <ul
-          class="text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow ">
+          class="text-sm space-x-2 flex font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow ">
           <li v-for="room, i in floor.Rooms" @click="roomInfo(i)" :key="i"
-        class="inline-block w-full p-4 bg-white text-[#192BAA] hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">
+        class=" active:bg-gray-300 w-full p-4 bg-white text-[#192BAA] hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">
         Room {{ i + 1 }}</li>
         </ul>
       
     </div>
-    <div class="flex max-sm:flex-col ">
+    <div class="flex max-sm:flex-col space-x-2">
       <div class="sm:w-1/2 sm:mx-auto">
         <img :src="room.RoomPic" alt="">
       </div>
-      <div class="max-sm:w-1/2 mx-auto">
+      <div class="sm:w-1/2 mx-auto">
         <div>
           <h3 class="text-[#192BAA] text-lg font-bold ">Room description :</h3>
           <span class="flex text-[#616571] font-medium my-4">
@@ -58,22 +58,11 @@
           </div>
           <span>Room Area : {{ room.RoomArea }}</span>
         </div>
-        <button class="p-2 bg-[#DA6217] text-white flex space-x-4 text-sm font-medium rounded-lg m-6 mx-auto">
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-send" width="24" height="24"
-            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M10 14l11 -11"></path>
-            <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5"></path>
-          </svg> <span>Send Message to Owner</span>
-        </button>
-
       </div>
     </div>
 
   </div>
 </template>
-
 <script>
 export default {
   name: 'Floor-info',
@@ -99,7 +88,8 @@ export default {
   methods: {
     roomInfo(i) {
       this.room = this.floor.Rooms[i]
-    }
+    },
+    
   }
 }
 </script>

@@ -17,22 +17,34 @@ class HousesController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->type){
-            if($request->search)
-                return HousesResource::collection(House::where('contractType',$request->type)->Where('Location', 'like', '%'.$request->search.'%')->get()) ;
-                else 
-                return HousesResource::collection(House::where('contractType',$request->type)->get()) ;
-        }
-        
-        if($request->id){
-            if($request->search)
-            return HousesResource::collection(House::where('Owner_id',$request->id)->orWhere('Location', 'like', '%'.$request->search.'%')->get()) ;
-            else 
-            return HousesResource::collection(House::where('Owner_id',$request->id)->get()) ;
+        if ($request->type) {
+            $result = $request->search ?
+                HousesResource::collection(House::where('accepted',1)->where('contractType', $request->type)->Where('Location', 'like', '%' . $request->search . '%')->get())
+                :
+                HousesResource::collection(House::where('accepted',1)->where('contractType', $request->type)->get());
+
+            return $result;
         }
 
-        return HousesResource::collection(House::inRandomOrder()->orWhere('Location', 'like', '%'.$request->search.'%')->limit(6)->get())    ;
-        
+        if ($request->id) {
+            $result = $request->search ?
+                HousesResource::collection(House::where('Owner_id', $request->id)->orWhere('Location', 'like', '%' . $request->search . '%')->get())
+                :
+                HousesResource::collection(House::where('Owner_id', $request->id)->get());
+
+            return $result;
+        }
+
+        if ($request->admin) {
+
+            $result =  $request->search ?
+                HousesResource::collection(House::where('accepted',0)->Where('Location', 'like', '%' . $request->search . '%')->get())
+                :
+                HousesResource::collection(House::where('accepted',0)->get());
+            return $result;
+        }
+
+        return HousesResource::collection(House::where('accepted',1)->Where('Location', 'like', '%' . $request->search . '%')->inRandomOrder()->limit(6)->get());
     }
 
     /**
@@ -65,7 +77,7 @@ class HousesController extends Controller
      */
     public function update(StoreHouseRequest $request, $id)
     {
-       return House::find($id)->update($request->all());
+        return House::find($id)->update($request->all());
     }
 
     /**

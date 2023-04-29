@@ -92,6 +92,7 @@ import DashboardLayout from '../Layouts/DashboardLayout.vue';
 import { houseStore } from '@/stores/houseStore';
 import addRoomVue from '@/components/add-room.vue'
 import axios from 'axios';
+import { userStore } from '../../stores/userStore';
 
 export default {
     name: 'houseInfoDashboard',
@@ -110,12 +111,10 @@ export default {
     },
     methods: {
         show($event) {
-            console.log($event.target.parentElement.parentElement.children[1])
             $event.target.parentElement.parentElement.children[1].classList.toggle('hidden')
         },
         showForm($event) {
-            $event.target.parentElement.parentElement.parentElement.parentElement.children[2].classList.toggle('hidden')
-            // $event.target.parentElement.parentElement.children[2].classList.toggle('hidden')
+            $event.target.parentElement.parentElement.parentElement.parentElement.children[2].classList.toggle('hidden');
         },
         deleteRoom(id) {
             swal({
@@ -158,7 +157,7 @@ export default {
                         axios.delete('http://127.0.0.1:8000/api/Floors/' + id, {
                             headers: {
                                 "Content-type": "application/json",
-                                "Authorization": `Bearer ${document.cookie}`,
+                                "Authorization": `Bearer ${userStore().token}`,
                             }
                         })
                             .then(res => {
