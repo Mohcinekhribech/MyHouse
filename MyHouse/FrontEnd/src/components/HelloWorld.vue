@@ -18,7 +18,7 @@
       <li v-if="user.role == 'client'" class="p-2"><router-link to="/messages">Messages</router-link></li>
       <li v-if="user.role == 'owner'" class="p-2"><router-link to="/Dashboard">Dashboard</router-link></li>
       <li v-if="!user.token" class="p-2 h-fit bg-[#364BDC] text-white rounded-lg"><router-link to="/login">Get Stated </router-link></li>
-      <li v-else class="p-2 h-fit bg-[#364BDC] text-white rounded-lg"><router-link to="/">
+      <li v-else @click="logout()" class="p-2 h-fit bg-[#364BDC] text-white rounded-lg"><router-link to="/">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" width="24" height="24"
             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
             stroke-linejoin="round">
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { userStore } from '../stores/userStore';
 export default {
   data() {
@@ -44,6 +45,21 @@ export default {
     },
     closeNav() {
       document.querySelector("ul").classList.replace('max-md:left-[0]', 'max-md:left-[-100%]');
+    },
+    logout()
+    {
+      axios.post('http://127.0.0.1:8000/api/Logout',{
+                            headers: {
+                                "Content-type": "application/json",
+                                "Authorization": `Bearer ${this.user.token}`,
+                            }
+                        }).then(()=>
+                        {
+                          localStorage.clear()
+                          window.location.reload();
+                        }
+                        )
+
     }
   }
 }

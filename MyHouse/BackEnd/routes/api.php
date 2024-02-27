@@ -27,6 +27,7 @@ Route::post('/Register', [AuthController::class, 'register']);
 Route::post('/Login', [AuthController::class, 'Login']);
 Route::get('/Houses/index', [HousesController::class,'index']);
 Route::get('/Houses/index/{id}', [HousesController::class,'show']);
+Route::post('/Logout', [AuthController::class, 'Logout']);
 Route::post('/accept/{id}', [adminController::class,'accept']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/Houses', HousesController::class);

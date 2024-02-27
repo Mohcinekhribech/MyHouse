@@ -57,7 +57,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full overflow-y-auto mx-2">
+        <div class="w-full h-screen overflow-y-auto ml-2">
             <div @click="sideBar" class="p-2 w-fit cursor-pointer bg-[#E2E6F3] rounded-lg m-4 text-[#616571]">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="24" height="24"
                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
